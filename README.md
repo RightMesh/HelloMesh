@@ -37,3 +37,6 @@ the devices.
 Our API reference is available at [https://developer.rightmesh.io/api/](https://developer.rightmesh.io/api/)
 
 A detailed step-by-step breakdown of how to get started can be found in our reference guide: [https://developer.rightmesh.io/reference/](https://developer.rightmesh.io/reference/)
+
+In order for this sample app to work, you need to obtain RightMesh developer account, and API key
+from our developer website: [https://developer.rightmesh.io/](developer.rightmesh.io)
