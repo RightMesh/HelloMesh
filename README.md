@@ -40,3 +40,6 @@ A detailed step-by-step breakdown of how to get started can be found in our refe
 
 In order for this sample app to work, you need to obtain RightMesh developer account, and API key
 from our developer website: [https://developer.rightmesh.io/](developer.rightmesh.io)
+
+Set your username, password and key in the app [build.gradle](app/build.gradle) file. The main
+source code is available in [MainActivity.java](app/java/io/left/hellomesh/MainActivity.java)
