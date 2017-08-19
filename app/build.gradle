@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+project.ext.set("artifactory_app_username", "insertyourusername")
+project.ext.set("artifactory_app_password","insertyourpasswordhash")
+project.ext.set("artifactory_app_key", "insertyourkey")
+
 buildscript {
     repositories {
         maven {
