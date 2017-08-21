@@ -59,7 +59,7 @@ android {
 
 dependencies {
     compile 'com.android.support:multidex:1.0.1'
-    compile ('io.left.rightmesh:rightmesh-library:0.3.0')
+    compile ('io.left.rightmesh:rightmesh-library-dev:0.3.1')
     compile 'com.android.support:appcompat-v7:25.3.1'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
