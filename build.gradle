@@ -1,9 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-project.ext.set("artifactory_app_username", "insertyourusername")
-project.ext.set("artifactory_app_password","insertyourpasswordhash")
-project.ext.set("artifactory_app_key", "insertyourkey")
-
 buildscript {
     repositories {
         jcenter()
