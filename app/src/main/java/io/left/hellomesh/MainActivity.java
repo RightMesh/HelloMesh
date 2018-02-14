@@ -97,14 +97,14 @@ public class MainActivity extends Activity implements MeshStateListener {
                 mm.on(PEER_CHANGED, this::handlePeerChanged);
 
                 // Enable buttons now that mesh is connected.
-                Button btnConfigure = (Button) findViewById(R.id.btnConfigure);
-                Button btnSend = (Button) findViewById(R.id.btnHello);
+                Button btnConfigure = findViewById(R.id.btnConfigure);
+                Button btnSend = findViewById(R.id.btnHello);
                 btnConfigure.setEnabled(true);
                 btnSend.setEnabled(true);
             } catch (RightMeshException e) {
                 String status = "Error initializing the library" + e.toString();
                 Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
-                TextView txtStatus = (TextView) findViewById(R.id.txtStatus);
+                TextView txtStatus = findViewById(R.id.txtStatus);
                 txtStatus.setText(status);
                 return;
             }
@@ -120,12 +120,12 @@ public class MainActivity extends Activity implements MeshStateListener {
      * Update the {@link TextView} with a list of all peers.
      */
     private void updateStatus() {
-        String status = "uuid: " + mm.getUuid().toString() + "\npeers:\n";
+        StringBuilder status = new StringBuilder("uuid: " + mm.getUuid().toString() + "\npeers:\n");
         for (MeshID user : users) {
-            status += user.toString() + "\n";
+            status.append(user.toString()).append("\n");
         }
-        TextView txtStatus = (TextView) findViewById(R.id.txtStatus);
-        txtStatus.setText(status);
+        TextView txtStatus = findViewById(R.id.txtStatus);
+        txtStatus.setText(status.toString());
     }
 
     /**
