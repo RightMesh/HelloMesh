@@ -16,10 +16,11 @@ import io.left.rightmesh.android.AndroidMeshManager;
 import io.left.rightmesh.android.MeshService;
 import io.left.rightmesh.id.MeshID;
 import io.left.rightmesh.mesh.MeshManager;
+import io.left.rightmesh.mesh.MeshManager.PeerChangedEvent;
+import io.left.rightmesh.mesh.MeshManager.RightMeshEvent;
 import io.left.rightmesh.mesh.MeshStateListener;
 import io.left.rightmesh.util.MeshUtility;
 import io.left.rightmesh.util.RightMeshException;
-import io.reactivex.functions.Consumer;
 
 import static io.left.rightmesh.mesh.MeshManager.DATA_RECEIVED;
 import static io.left.rightmesh.mesh.MeshManager.PEER_CHANGED;
@@ -92,23 +93,8 @@ public class MainActivity extends Activity implements MeshStateListener {
                 mm.bind(HELLO_PORT);
 
                 // Subscribes handlers to receive events from the mesh.
-                mm.on(DATA_RECEIVED, new Consumer() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        handleDataReceived((MeshManager.RightMeshEvent) o);
-                    }
-                });
-                mm.on(PEER_CHANGED, new Consumer() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        handlePeerChanged((MeshManager.RightMeshEvent) o);
-                    }
-                });
-
-                // If you are using Java 8 or a lambda backport like RetroLambda, you can use
-                // a more concise syntax, like the following:
-                // mm.on(PEER_CHANGED, this::handlePeerChanged);
-                // mm.on(DATA_RECEIVED, this::dataReceived);
+                mm.on(DATA_RECEIVED, this::handleDataReceived);
+                mm.on(PEER_CHANGED, this::handlePeerChanged);
 
                 // Enable buttons now that mesh is connected.
                 Button btnConfigure = (Button) findViewById(R.id.btnConfigure);
@@ -147,21 +133,18 @@ public class MainActivity extends Activity implements MeshStateListener {
      *
      * @param e event object from mesh
      */
-    private void handleDataReceived(MeshManager.RightMeshEvent e) {
+    private void handleDataReceived(RightMeshEvent e) {
         final MeshManager.DataReceivedEvent event = (MeshManager.DataReceivedEvent) e;
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // Toast data contents.
-                String message = new String(event.data);
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+        runOnUiThread(() -> {
+            // Toast data contents.
+            String message = new String(event.data);
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 
-                // Play a notification.
-                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                Ringtone r = RingtoneManager.getRingtone(MainActivity.this, notification);
-                r.play();
-            }
+            // Play a notification.
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(MainActivity.this, notification);
+            r.play();
         });
     }
 
@@ -170,9 +153,9 @@ public class MainActivity extends Activity implements MeshStateListener {
      *
      * @param e event object from mesh
      */
-    private void handlePeerChanged(MeshManager.RightMeshEvent e) {
+    private void handlePeerChanged(RightMeshEvent e) {
         // Update peer list.
-        MeshManager.PeerChangedEvent event = (MeshManager.PeerChangedEvent) e;
+        PeerChangedEvent event = (PeerChangedEvent) e;
         if (event.state != REMOVED && !users.contains(event.peerUuid)) {
             users.add(event.peerUuid);
         } else if (event.state == REMOVED){
@@ -180,12 +163,7 @@ public class MainActivity extends Activity implements MeshStateListener {
         }
 
         // Update display.
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updateStatus();
-            }
-        });
+        runOnUiThread(this::updateStatus);
     }
 
     /**
@@ -216,4 +194,3 @@ public class MainActivity extends Activity implements MeshStateListener {
         }
     }
 }
-
