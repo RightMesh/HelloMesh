@@ -28,7 +28,7 @@ import static io.left.rightmesh.mesh.MeshManager.REMOVED;
 
 public class MainActivity extends Activity implements MeshStateListener {
     // Port to bind app to.
-    private static final int HELLO_PORT = 9876;
+    private static final int HELLO_PORT = 12322;
 
     // MeshManager instance - interface to the mesh network.
     AndroidMeshManager mm = null;
