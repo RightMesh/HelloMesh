@@ -8,7 +8,7 @@ buildscript {
     }
     repositories {
         maven {
-            url "http://research.rightmesh.io/artifactory/libs-local"
+            url "https://research.rightmesh.io/artifactory/libs-local"
             credentials {
                 username artifactory_app_username
                 password artifactory_app_password
@@ -30,7 +30,7 @@ repositories {
     jcenter()
     google()
     maven {
-        url "http://research.rightmesh.io/artifactory/libs-local"
+        url "https://research.rightmesh.io/artifactory/libs-local"
         credentials {
             username artifactory_app_username
             password artifactory_app_password
@@ -40,7 +40,7 @@ repositories {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "io.left.hellomesh"
         minSdkVersion 14
@@ -65,10 +65,10 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:multidex:1.0.2'
-    implementation ('io.left.rightmesh:rightmesh-library:0.4.3')
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support:support-media-compat:27.0.2'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation ('io.left.rightmesh:rightmesh-library:0.4.4')
+    implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
