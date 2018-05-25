@@ -66,7 +66,7 @@ android {
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
-    implementation ('io.left.rightmesh:rightmesh-library:0.4.4')
+    implementation ('io.left.rightmesh:rightmesh-library:0.5.0')
     implementation 'com.android.support:support-v4:27.1.0'
     implementation 'com.android.support:appcompat-v7:27.1.0'
 

@@ -14,7 +14,7 @@ import java.util.HashSet;
 
 import io.left.rightmesh.android.AndroidMeshManager;
 import io.left.rightmesh.android.MeshService;
-import io.left.rightmesh.id.MeshID;
+import io.left.rightmesh.id.MeshId;
 import io.left.rightmesh.mesh.MeshManager;
 import io.left.rightmesh.mesh.MeshManager.PeerChangedEvent;
 import io.left.rightmesh.mesh.MeshManager.RightMeshEvent;
@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements MeshStateListener {
     AndroidMeshManager mm = null;
 
     // Set to keep track of peers connected to the mesh.
-    HashSet<MeshID> users = new HashSet<>();
+    HashSet<MeshId> users = new HashSet<>();
 
     /**
      * Called when app first opens, initializes {@link AndroidMeshManager} reference (which will
@@ -85,7 +85,7 @@ public class MainActivity extends Activity implements MeshStateListener {
      * @param state state which indicates SUCCESS or an error code
      */
     @Override
-    public void meshStateChanged(MeshID uuid, int state) {
+    public void meshStateChanged(MeshId uuid, int state) {
         if (state == MeshStateListener.SUCCESS) {
             try {
                 // Binds this app to MESH_PORT.
@@ -121,7 +121,7 @@ public class MainActivity extends Activity implements MeshStateListener {
      */
     private void updateStatus() {
         StringBuilder status = new StringBuilder("uuid: " + mm.getUuid().toString() + "\npeers:\n");
-        for (MeshID user : users) {
+        for (MeshId user : users) {
             status.append(user.toString()).append("\n");
         }
         TextView txtStatus = findViewById(R.id.txtStatus);
@@ -172,7 +172,7 @@ public class MainActivity extends Activity implements MeshStateListener {
      * @param v calling view
      */
     public void sendHello(View v) throws RightMeshException {
-        for(MeshID receiver : users) {
+        for(MeshId receiver : users) {
             String msg = "Hello to: " + receiver + " from" + mm.getUuid();
             MeshUtility.Log(this.getClass().getCanonicalName(), "MSG: " + msg);
             byte[] testData = msg.getBytes();
