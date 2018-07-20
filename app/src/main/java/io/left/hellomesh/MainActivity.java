@@ -48,7 +48,9 @@ public class MainActivity extends Activity implements MeshStateListener {
         setContentView(R.layout.activity_main);
 
         // TODO: set pattern
-        mm = AndroidMeshManager.getInstance(MainActivity.this, MainActivity.this);
+        mm = AndroidMeshManager.getInstance(
+                MainActivity.this,
+                MainActivity.this);
     }
 
     /**

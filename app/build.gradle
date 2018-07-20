@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-
+// NOTE: you MUST disable configureOnDemand for your compiler.
+// To do this in Android Studio: https://stackoverflow.com/a/49994951/4082582
 buildscript {
     ext {
         // define these variables in your personal ~/.gradle/gradle.properties
@@ -31,6 +32,7 @@ buildscript {
 }
 apply plugin: 'io.left.rightmesh.rightmesh-plugin'
 preBuild.dependsOn("rightmesh")
+
 
 repositories {
     mavenCentral()
