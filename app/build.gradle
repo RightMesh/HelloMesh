@@ -2,9 +2,16 @@ apply plugin: 'com.android.application'
 
 buildscript {
     ext {
-        artifactory_app_username = "insertyourusername"
-        artifactory_app_password = "insertyourpasswordhash"
-        artifactory_app_key = "insertyourkey"
+        // define these variables in your personal ~/.gradle/gradle.properties
+        // for example:
+        /*
+            rightmesh_artifactory_username=<username>
+            rightmesh_artifactory_password=<hash of your developer portal password>
+            rightmesh_hellomesh_key=<some key that you have access to>
+        */
+        artifactory_app_username = "${rightmesh_artifactory_username}"
+        artifactory_app_password = "${rightmesh_artifactory_password}"
+        artifactory_app_key = "${rightmesh_hellomesh_key}"
     }
     repositories {
         maven {

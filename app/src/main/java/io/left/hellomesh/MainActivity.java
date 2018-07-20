@@ -27,7 +27,7 @@ import static io.left.rightmesh.mesh.MeshManager.PEER_CHANGED;
 import static io.left.rightmesh.mesh.MeshManager.REMOVED;
 
 public class MainActivity extends Activity implements MeshStateListener {
-    // Port to bind app to.
+    // TODO: this port must match the port assigned, on developer.rightmesh.io, to your key
     private static final int HELLO_PORT = 9876;
 
     // MeshManager instance - interface to the mesh network.
