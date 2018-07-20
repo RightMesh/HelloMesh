@@ -1,5 +1,9 @@
 # Don't version any IDE files.
 .idea/
+.project
+.settings
+.vscode
+.classpath
 
 # Externally managed Checkstyle config file
 config/checkstyle/checkstyle.xml
