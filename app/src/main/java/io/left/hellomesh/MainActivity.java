@@ -47,6 +47,7 @@ public class MainActivity extends Activity implements MeshStateListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // TODO: set pattern
         mm = AndroidMeshManager.getInstance(MainActivity.this, MainActivity.this);
     }
 
@@ -58,7 +59,7 @@ public class MainActivity extends Activity implements MeshStateListener {
         try {
             super.onResume();
             mm.resume();
-        } catch (MeshService.ServiceDisconnectedException e) {
+        } catch (RightMeshException.RightMeshServiceDisconnectedException e) {
             e.printStackTrace();
         }
     }
@@ -72,7 +73,7 @@ public class MainActivity extends Activity implements MeshStateListener {
         try {
             super.onDestroy();
             mm.stop();
-        } catch (MeshService.ServiceDisconnectedException e) {
+        } catch (RightMeshException.RightMeshServiceDisconnectedException e) {
             e.printStackTrace();
         }
     }

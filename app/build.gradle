@@ -73,9 +73,9 @@ android {
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
-    implementation ('io.left.rightmesh:rightmesh-library:0.5.0')
-    implementation 'com.android.support:support-v4:27.1.0'
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation ('io.left.rightmesh:rightmesh-library:0.8.0')
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
