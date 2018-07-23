@@ -47,7 +47,10 @@ public class MainActivity extends Activity implements MeshStateListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: set pattern
+        // TODO: when testing, we suggest using rightmesh-library-dev in app:build.gradle,
+        // and specifying a pattern as the third argument to this call. This will isolate
+        // your devices so they won't try to connect to the network of the developer sitting
+        // beside you :D
         mm = AndroidMeshManager.getInstance(
                 MainActivity.this,
                 MainActivity.this);
