@@ -27,7 +27,7 @@ import static io.left.rightmesh.mesh.MeshManager.PEER_CHANGED;
 import static io.left.rightmesh.mesh.MeshManager.REMOVED;
 
 public class MainActivity extends Activity implements MeshStateListener {
-    // Port to bind app to.
+    // TODO: this port must match the port assigned, on developer.rightmesh.io, to your key
     private static final int HELLO_PORT = 9876;
 
     // MeshManager instance - interface to the mesh network.
@@ -47,7 +47,13 @@ public class MainActivity extends Activity implements MeshStateListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mm = AndroidMeshManager.getInstance(MainActivity.this, MainActivity.this);
+        // TODO: when testing, we suggest using rightmesh-library-dev in app:build.gradle,
+        // and specifying a pattern as the third argument to this call. This will isolate
+        // your devices so they won't try to connect to the network of the developer sitting
+        // beside you :D
+        mm = AndroidMeshManager.getInstance(
+                MainActivity.this,
+                MainActivity.this);
     }
 
     /**
@@ -58,7 +64,7 @@ public class MainActivity extends Activity implements MeshStateListener {
         try {
             super.onResume();
             mm.resume();
-        } catch (MeshService.ServiceDisconnectedException e) {
+        } catch (RightMeshException.RightMeshServiceDisconnectedException e) {
             e.printStackTrace();
         }
     }
@@ -72,7 +78,7 @@ public class MainActivity extends Activity implements MeshStateListener {
         try {
             super.onDestroy();
             mm.stop();
-        } catch (MeshService.ServiceDisconnectedException e) {
+        } catch (RightMeshException.RightMeshServiceDisconnectedException e) {
             e.printStackTrace();
         }
     }

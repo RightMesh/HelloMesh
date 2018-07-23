@@ -1,10 +1,18 @@
 apply plugin: 'com.android.application'
-
+// NOTE: you MUST disable configureOnDemand for your compiler.
+// To do this in Android Studio: https://stackoverflow.com/a/49994951/4082582
 buildscript {
     ext {
-        artifactory_app_username = "insertyourusername"
-        artifactory_app_password = "insertyourpasswordhash"
-        artifactory_app_key = "insertyourkey"
+        // define these variables in your personal ~/.gradle/gradle.properties
+        // for example:
+        /*
+            rightmesh_artifactory_username=<username>
+            rightmesh_artifactory_password=<hash of your developer portal password>
+            rightmesh_hellomesh_key=<some key that you have access to>
+        */
+        artifactory_app_username = "${rightmesh_artifactory_username}"
+        artifactory_app_password = "${rightmesh_artifactory_password}"
+        artifactory_app_key = "${rightmesh_hellomesh_key}"
     }
     repositories {
         maven {
@@ -24,6 +32,7 @@ buildscript {
 }
 apply plugin: 'io.left.rightmesh.rightmesh-plugin'
 preBuild.dependsOn("rightmesh")
+
 
 repositories {
     mavenCentral()
@@ -66,9 +75,9 @@ android {
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
-    implementation ('io.left.rightmesh:rightmesh-library:0.5.0')
-    implementation 'com.android.support:support-v4:27.1.0'
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation ('io.left.rightmesh:rightmesh-library:0.8.0')
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
