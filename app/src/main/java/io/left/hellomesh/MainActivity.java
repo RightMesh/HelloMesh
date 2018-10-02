@@ -31,7 +31,7 @@ public class MainActivity extends Activity implements MeshStateListener {
     private static final int HELLO_PORT = 9876;
 
     // MeshManager instance - interface to the mesh network.
-    AndroidMeshManager mm = null;
+    AndroidMeshManager meshManager = null;
 
     // Set to keep track of peers connected to the mesh.
     HashSet<MeshId> users = new HashSet<>();
@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements MeshStateListener {
         // and specifying a pattern as the third argument to this call. This will isolate
         // your devices so they won't try to connect to the network of the developer sitting
         // beside you :D
-        mm = AndroidMeshManager.getInstance(
+        meshManager = AndroidMeshManager.getInstance(
                 MainActivity.this,
                 MainActivity.this);
     }
@@ -63,7 +63,7 @@ public class MainActivity extends Activity implements MeshStateListener {
     protected void onResume() {
         try {
             super.onResume();
-            mm.resume();
+            meshManager.resume();
         } catch (RightMeshException.RightMeshServiceDisconnectedException e) {
             e.printStackTrace();
         }
@@ -77,7 +77,7 @@ public class MainActivity extends Activity implements MeshStateListener {
     protected void onDestroy() {
         try {
             super.onDestroy();
-            mm.stop();
+            meshManager.stop();
         } catch (RightMeshException.RightMeshServiceDisconnectedException e) {
             e.printStackTrace();
         }
@@ -96,11 +96,11 @@ public class MainActivity extends Activity implements MeshStateListener {
             try {
                 // Binds this app to MESH_PORT.
                 // This app will now receive all events generated on that port.
-                mm.bind(HELLO_PORT);
+                meshManager.bind(HELLO_PORT);
 
                 // Subscribes handlers to receive events from the mesh.
-                mm.on(DATA_RECEIVED, this::handleDataReceived);
-                mm.on(PEER_CHANGED, this::handlePeerChanged);
+                meshManager.on(DATA_RECEIVED, this::handleDataReceived);
+                meshManager.on(PEER_CHANGED, this::handlePeerChanged);
 
                 // Enable buttons now that mesh is connected.
                 Button btnConfigure = findViewById(R.id.btnConfigure);
@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements MeshStateListener {
      * Update the {@link TextView} with a list of all peers.
      */
     private void updateStatus() {
-        StringBuilder status = new StringBuilder("uuid: " + mm.getUuid().toString() + "\npeers:\n");
+        StringBuilder status = new StringBuilder("uuid: " + meshManager.getUuid().toString() + "\npeers:\n");
         for (MeshId user : users) {
             status.append(user.toString()).append("\n");
         }
@@ -179,10 +179,10 @@ public class MainActivity extends Activity implements MeshStateListener {
      */
     public void sendHello(View v) throws RightMeshException {
         for(MeshId receiver : users) {
-            String msg = "Hello to: " + receiver + " from" + mm.getUuid();
+            String msg = "Hello to: " + receiver + " from" + meshManager.getUuid();
             MeshUtility.Log(this.getClass().getCanonicalName(), "MSG: " + msg);
             byte[] testData = msg.getBytes();
-            mm.sendDataReliable(receiver, HELLO_PORT, testData);
+            meshManager.sendDataReliable(receiver, HELLO_PORT, testData);
         }
     }
 
@@ -194,7 +194,7 @@ public class MainActivity extends Activity implements MeshStateListener {
     public void configure(View v)
     {
         try {
-            mm.showSettingsActivity();
+            meshManager.showSettingsActivity();
         } catch(RightMeshException ex) {
             MeshUtility.Log(this.getClass().getCanonicalName(), "Service not connected");
         }
