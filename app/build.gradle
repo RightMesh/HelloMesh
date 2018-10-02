@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 // NOTE: you MUST disable configureOnDemand for your compiler.
 // To do this in Android Studio: https://stackoverflow.com/a/49994951/4082582
+
 buildscript {
     ext {
         // define these variables in your personal ~/.gradle/gradle.properties
@@ -13,10 +14,13 @@ buildscript {
         artifactory_app_username = "${rightmesh_artifactory_username}"
         artifactory_app_password = "${rightmesh_artifactory_password}"
         artifactory_app_key = "${rightmesh_hellomesh_key}"
+
+        rightmesh_maven_repo="https://research.rightmesh.io/artifactory/libs-local"
+        maven_repo = "${rightmesh_maven_repo}"
     }
     repositories {
         maven {
-            url "https://research.rightmesh.io/artifactory/libs-local"
+            url maven_repo
             credentials {
                 username artifactory_app_username
                 password artifactory_app_password
@@ -39,7 +43,7 @@ repositories {
     jcenter()
     google()
     maven {
-        url "https://research.rightmesh.io/artifactory/libs-local"
+        url maven_repo
         credentials {
             username artifactory_app_username
             password artifactory_app_password
@@ -49,7 +53,7 @@ repositories {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "io.left.hellomesh"
         minSdkVersion 14
