@@ -1,5 +1,9 @@
 package io.left.hellomesh;
 
+import static io.left.rightmesh.mesh.MeshManager.DATA_RECEIVED;
+import static io.left.rightmesh.mesh.MeshManager.PEER_CHANGED;
+import static io.left.rightmesh.mesh.MeshManager.REMOVED;
+
 import android.app.Activity;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -10,25 +14,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashSet;
-
 import io.left.rightmesh.android.AndroidMeshManager;
-import io.left.rightmesh.android.MeshService;
+import io.left.rightmesh.android.AndroidMeshService;
 import io.left.rightmesh.id.MeshId;
 import io.left.rightmesh.mesh.MeshManager;
 import io.left.rightmesh.mesh.MeshManager.PeerChangedEvent;
 import io.left.rightmesh.mesh.MeshManager.RightMeshEvent;
 import io.left.rightmesh.mesh.MeshStateListener;
-import io.left.rightmesh.util.MeshUtility;
+import io.left.rightmesh.util.Logger;
 import io.left.rightmesh.util.RightMeshException;
 
-import static io.left.rightmesh.mesh.MeshManager.DATA_RECEIVED;
-import static io.left.rightmesh.mesh.MeshManager.PEER_CHANGED;
-import static io.left.rightmesh.mesh.MeshManager.REMOVED;
+import java.util.HashSet;
 
 public class MainActivity extends Activity implements MeshStateListener {
     // TODO: this port must match the port assigned, on developer.rightmesh.io, to your key
-    private static final int HELLO_PORT = 9876;
+    private static final int HELLO_PORT = 1357;
 
     // MeshManager instance - interface to the mesh network.
     AndroidMeshManager mm = null;
@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements MeshStateListener {
 
     /**
      * Called when app first opens, initializes {@link AndroidMeshManager} reference (which will
-     * start the {@link MeshService} if it isn't already running.
+     * start the {@link AndroidMeshService} if it isn't already running.
      *
      * @param savedInstanceState passed from operating system
      */
@@ -84,7 +84,8 @@ public class MainActivity extends Activity implements MeshStateListener {
     }
 
     /**
-     * Called by the {@link MeshService} when the mesh state changes. Initializes mesh connection
+     * Called by the {@link AndroidMeshService} when the mesh state changes.
+     * Initializes mesh connection
      * on first call.
      *
      * @param uuid our own user id on first detecting
@@ -164,7 +165,7 @@ public class MainActivity extends Activity implements MeshStateListener {
         PeerChangedEvent event = (PeerChangedEvent) e;
         if (event.state != REMOVED && !users.contains(event.peerUuid)) {
             users.add(event.peerUuid);
-        } else if (event.state == REMOVED){
+        } else if (event.state == REMOVED) {
             users.remove(event.peerUuid);
         }
 
@@ -176,11 +177,12 @@ public class MainActivity extends Activity implements MeshStateListener {
      * Sends "hello" to all known peers.
      *
      * @param v calling view
+     * @throws RightMeshException Throws exception when there's an error in the library
      */
     public void sendHello(View v) throws RightMeshException {
-        for(MeshId receiver : users) {
+        for (MeshId receiver : users) {
             String msg = "Hello to: " + receiver + " from" + mm.getUuid();
-            MeshUtility.Log(this.getClass().getCanonicalName(), "MSG: " + msg);
+            Logger.log(this.getClass().getCanonicalName(), "MSG: " + msg);
             byte[] testData = msg.getBytes();
             mm.sendDataReliable(receiver, HELLO_PORT, testData);
         }
@@ -191,12 +193,11 @@ public class MainActivity extends Activity implements MeshStateListener {
      *
      * @param v calling view
      */
-    public void configure(View v)
-    {
+    public void configure(View v) {
         try {
             mm.showSettingsActivity();
-        } catch(RightMeshException ex) {
-            MeshUtility.Log(this.getClass().getCanonicalName(), "Service not connected");
+        } catch (RightMeshException ex) {
+            Logger.log(this.getClass().getCanonicalName(), "Service not connected");
         }
     }
 }

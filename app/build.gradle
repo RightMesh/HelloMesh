@@ -10,36 +10,37 @@ buildscript {
             rightmesh_artifactory_password=<hash of your developer portal password>
             rightmesh_hellomesh_key=<some key that you have access to>
         */
-        artifactory_app_username = "${rightmesh_artifactory_username}"
-        artifactory_app_password = "${rightmesh_artifactory_password}"
+        artifactory_app_username = "${rightmesh_devportal_username}"
+        artifactory_app_password = "${rightmesh_devportal_password}"
         artifactory_app_key = "${rightmesh_hellomesh_key}"
     }
     repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://dl.bintray.com/ethereum/maven" }
         maven {
-            url "https://research.rightmesh.io/artifactory/libs-local"
+            url "https://artifactory.rightmesh.io/artifactory/maven"
             credentials {
                 username artifactory_app_username
                 password artifactory_app_password
             }
         }
-        google()
-        mavenCentral()
-        jcenter()
     }
     dependencies {
-        classpath 'io.left.rightmesh:rightmesh-plugin:1.6'
+        classpath 'io.left.rightmesh:rightmesh-plugin:1.8.1'
     }
 }
 apply plugin: 'io.left.rightmesh.rightmesh-plugin'
 preBuild.dependsOn("rightmesh")
 
-
 repositories {
-    mavenCentral()
-    jcenter()
     google()
+    jcenter()
+    mavenCentral()
+    maven { url "https://dl.bintray.com/ethereum/maven" }
     maven {
-        url "https://research.rightmesh.io/artifactory/libs-local"
+        url "https://artifactory.rightmesh.io/artifactory/maven"
         credentials {
             username artifactory_app_username
             password artifactory_app_password
@@ -49,7 +50,7 @@ repositories {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "io.left.hellomesh"
         minSdkVersion 14
@@ -68,14 +69,17 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
-    implementation ('io.left.rightmesh:rightmesh-library:0.8.0')
+    implementation ('io.left.rightmesh:lib-rightmesh-android:0.10.0')
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
 
