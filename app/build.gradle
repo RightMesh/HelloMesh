@@ -1,51 +1,30 @@
-apply plugin: 'com.android.application'
 // NOTE: you MUST disable configureOnDemand for your compiler.
 // To do this in Android Studio: https://stackoverflow.com/a/49994951/4082582
-buildscript {
-    ext {
-        // define these variables in your personal ~/.gradle/gradle.properties
-        // for example:
-        /*
-            rightmesh_artifactory_username=<username>
-            rightmesh_artifactory_password=<hash of your developer portal password>
-            rightmesh_hellomesh_key=<some key that you have access to>
-        */
-        artifactory_app_username = "${rightmesh_devportal_username}"
-        artifactory_app_password = "${rightmesh_devportal_password}"
-        artifactory_app_key = "${rightmesh_hellomesh_key}"
-    }
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-        maven { url "https://dl.bintray.com/ethereum/maven" }
-        maven {
-            url "https://artifactory.rightmesh.io/artifactory/maven"
-            credentials {
-                username artifactory_app_username
-                password artifactory_app_password
-            }
-        }
-    }
-    dependencies {
-        classpath 'io.left.rightmesh:rightmesh-plugin:1.8.1'
-    }
+plugins {
+    id 'com.android.application'
+    id 'io.left.rightmesh.rightmesh-plugin' version '1.8.1'
 }
-apply plugin: 'io.left.rightmesh.rightmesh-plugin'
+
+rightmesh {
+    appKey = rightmesh_hellomesh_key
+    username = rightmesh_build_username
+    password = rightmesh_build_password
+}
+
 preBuild.dependsOn("rightmesh")
 
 repositories {
     google()
     jcenter()
     mavenCentral()
-    maven { url "https://dl.bintray.com/ethereum/maven" }
     maven {
         url "https://artifactory.rightmesh.io/artifactory/maven"
         credentials {
-            username artifactory_app_username
-            password artifactory_app_password
+            username rightmesh_build_username
+            password rightmesh_build_password
         }
     }
+    maven { url "https://dl.bintray.com/ethereum/maven" }
 }
 
 android {
